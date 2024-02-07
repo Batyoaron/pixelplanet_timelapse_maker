@@ -1,6 +1,6 @@
 # pixelplanet timelapse maker
 
-start xy: top left corners cordinate
+start xy: top right corners cordinate
 
 end xy: bottom left corners cordinate
 (like in the image)

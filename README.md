@@ -9,4 +9,6 @@ end xy: bottom left corners cordinate
 
 download the .zip file in the "releases"
 
-but you can download the python files, if you want to do that you need to open the "input.py" to start the program, in the exe version you can use the shortcut 
+but you can download the python files, if you want to do that you need to open the "input.py" to start the program, in the exe version you can use the shortcut
+
+note: it will probably not going to work on phone, I have not tried it yet.

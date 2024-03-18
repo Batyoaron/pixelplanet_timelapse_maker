@@ -11,9 +11,9 @@ c = input("start time: ")
 d = input("end time: ")
 
 print("image download starting")
-
+# its historyDownload.exe in the exe version
 cmd_command = [
-    r"historyDownload.exe",
+    r"historyDownload.py",
     "0",
     a,
     b,

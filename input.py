@@ -1,5 +1,5 @@
 import subprocess
-
+import os
 
 print("PixelPlanet.fun timelapse maker")
 print("by: Batyo")
@@ -11,9 +11,12 @@ c = input("start time: ")
 d = input("end time: ")
 
 print("image download starting")
-# its historyDownload.exe in the exe version
+script_dir = os.path.dirname(os.path.realpath(__file__))
+history_download_script = os.path.join(script_dir, "historyDownload.py")
+
 cmd_command = [
-    r"historyDownload.py",
+    "python",  
+    history_download_script,
     "0",
     a,
     b,
@@ -28,3 +31,4 @@ if result.returncode == 0:
 else:
     print("Error:")
     print(result.stderr)
+

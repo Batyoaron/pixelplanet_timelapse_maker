@@ -1,4 +1,3 @@
-import subprocess
 import os
 
 print("PixelPlanet.fun timelapse maker")
@@ -7,28 +6,21 @@ print("")
 
 a = input("start x,y coordinates: ")
 b = input("end x,y coordinates: ")
-c = input("start time: ")
-d = input("end time: ")
+start_date = input("start time: ")
+end_date = input("end time: ")
 
 print("image download starting")
-script_dir = os.path.dirname(os.path.realpath(__file__))
-history_download_script = os.path.join(script_dir, "historyDownload.py")
 
 cmd_command = [
-    "python",  
-    history_download_script,
+    r"historyDownload.exe",
     "0",
     a,
     b,
-    c,
-    d
+    start_date,
+    end_date
 ]
 
-result = subprocess.run(cmd_command, capture_output=True, text=True)
-if result.returncode == 0:
-    print("Output:")
-    print(result.stdout)
-else:
-    print("Error:")
-    print(result.stderr)
+cmd_string = " ".join(cmd_command)
+
+os.system(cmd_string)
 

@@ -42,6 +42,7 @@ def create_video_from_images(image_folder, output_path, fps):
         video_writer.write(image)
 
     video_writer.release()
+    os.startfile("end.exe")
     cv2.destroyAllWindows()
 
 image_folder = "images"

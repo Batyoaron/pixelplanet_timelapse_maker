@@ -13,4 +13,4 @@ End date: year-month-day (example: 2023-01-02) you have to use "-" !!!
 
 ![image](https://github.com/Batyoaron/pixelplanet_timelapse_maker/assets/111697446/ca9d393f-ef71-48a3-9c77-030b3edf45d4)
 
-**You have to open the "input.exe" to enter the right data for the program **
+You have to open the "input.exe" to enter the right data for the program

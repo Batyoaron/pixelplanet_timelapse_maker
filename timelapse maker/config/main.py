@@ -1,53 +1,68 @@
-
 import cv2
 import os
 import re
-
-os.system("cls")
-
-
-
-
-os.system("cls")
-print(" \n \n \n \n \n")
-print("If the window closed itself, your timelapse is ready, you can find it in, py files/")
-print("wait until the program finishes")
-print("dont close the window")
-print("the video is now creating...")
-
+import time
 
 def create_video_from_images(image_folder, output_path, fps):
     image_files = sorted(os.listdir(image_folder))
     image_files = [file for file in image_files if file.endswith('.png')]
 
-
+    # Sort the files numerically
     image_files = sorted(image_files, key=lambda x: int(re.findall('\d+', x)[0]))
 
     if len(image_files) == 0:
         print("No image files found in the specified folder.")
         return
 
-
+    # Read the first image to get the frame size
     first_image_path = os.path.join(image_folder, image_files[0])
     first_image = cv2.imread(first_image_path)
+    if first_image is None:
+        print(f"Error reading the first image from {first_image_path}")
+        return
     height, width, channels = first_image.shape
 
-
+    # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     video_writer = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
 
-    for image_file in image_files:
+    start_time = time.time()
+    total_images = len(image_files)
+
+    for index, image_file in enumerate(image_files):
+        
         image_path = os.path.join(image_folder, image_file)
         image = cv2.imread(image_path)
+        if image is None:
+            print(f"Error reading image {image_path}")
+            continue
         video_writer.write(image)
-
+        elapsed_time = time.time() - start_time
+        avg_time_per_image = elapsed_time / (index + 1)
+        remaining_time = avg_time_per_image * (total_images - index - 1)
+        os.system("cls")
+        print(f"Processing image {index + 1}/{total_images}, estimated remaining time: {remaining_time:.2f} seconds", end='\r')
+        
     video_writer.release()
-    os.startfile("end.exe")
     cv2.destroyAllWindows()
 
+    total_time = time.time() - start_time
+    print(f"\nTimelapse creation completed in {total_time:.2f} seconds.")
+
+# Read speed value from file and cast to float
+try:
+    with open("speed", 'r') as file:
+        speed = float(file.read().strip())
+except FileNotFoundError:
+    print("Speed file not found. Using default speed value of 30.0 fps.")
+    speed = 30.0
+except ValueError:
+    print("Invalid speed value in file. Using default speed value of 30.0 fps.")
+    speed = 30.0
+
 image_folder = "images"
-
 output_path = 'timelapse.mp4'
-fps = 30
 
-create_video_from_images(image_folder, output_path, fps)
+create_video_from_images(image_folder, output_path, speed)
+
+os.startfile("end.exe")

@@ -1,9 +1,8 @@
 # pixelplanet timelapse maker
 
-<center> Start xy: top Left corners cordinate (Navigate your mouse to the corner and press "R" to copy it) </center>
-
-<center> End xy: bottom Right corners cordinate </center>
-
+Start xy: top Left corners cordinate (Navigate your mouse to the corner and press "R" to copy it) 
+<br>
+End xy: bottom Right corners cordinate
 
 Start date: year-month-day (example: 2023-01-01) you have to use "-" !!!
 

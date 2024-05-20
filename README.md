@@ -30,7 +30,7 @@ End date: year-month-day
 Speed:
 You can set how fast the timelapse will bem example: 30 (it will show 30 images/second)
 ```
-
+<br>
 <b> Start the "launcher" to launch the main program </b>
 
 ❗ The code is made with python, but when you download it from the releases it will have ".exe" in it, if you download the python version then it will not going to work, so download it from the releases 

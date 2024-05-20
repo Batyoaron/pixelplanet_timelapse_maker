@@ -28,7 +28,7 @@ End date: year-month-day
 
 ```
 Speed:
-You can set how fast the timelapse will bem example: 30 (it will show 30 images/second)
+You can set how fast the timelapse will be, example: 30 (it will show 30 images/second)
 ```
 <br>
 <b> Start the "launcher.exe" to launch the main program </b>

@@ -1,8 +1,8 @@
 # pixelplanet timelapse maker
-
+<h2 align="center">
 ▶ <a href ="https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/tag/python">
 <strong> Download here the Zip File</strong>
-
+</a> </h2>
 
 ```
 (Navigate your mouse to the corner and press "R" to copy it)

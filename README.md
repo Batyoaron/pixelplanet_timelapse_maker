@@ -3,6 +3,7 @@
 ▶ <a href ="https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/tag/python">
 <strong> Download here the Zip File</strong>
 </a> </h2>
+<h4 align="center"> <em> Left click on the "PixelPlanet timelapse maker.zip" to download it </em> </h4>
 
 ```
 (Navigate your mouse to the corner and press "R" to copy it)

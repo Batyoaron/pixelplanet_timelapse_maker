@@ -1,4 +1,4 @@
-# pixelplanet timelapse maker
+<h2 align="center"> Pixelplanet Timelapse Maker </h2> 
 <h2 align="center">
 ▶ <a href ="https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/tag/python">
 <strong> Download here the Zip File</strong>

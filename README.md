@@ -2,6 +2,8 @@
 
 <b> Please read this description because many people had error in the program because of not knowing the tutorial</b>
 
+-----
+
 ```
 (Navigate your mouse to the corner and press "R" to copy it)
 

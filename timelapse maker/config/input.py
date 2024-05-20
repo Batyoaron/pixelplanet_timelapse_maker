@@ -1,7 +1,8 @@
 import os
 
 print("PixelPlanet.fun timelapse maker")
-print("by: Batyo")
+print("by: PixelHungary")
+print("Please DM: 'averagebatyoenjoyer' in discord if you find an issue")
 print("")
 
 if os.path.isfile("speed"):
@@ -26,4 +27,5 @@ cmd_command = "historyDownload.exe 0 ", a, b, start_date, end_date
 cmd_string = " ".join(cmd_command)
 
 os.system(cmd_string)
+
 

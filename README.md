@@ -1,12 +1,15 @@
 # pixelplanet timelapse maker
 ```
-(Navigate your mouse to the corner and press "R" to copy it) 
+(Navigate your mouse to the corner and press "R" to copy it)
+
 Start xy: top Left corners cordinate
 End xy: bottom Right corners cordinate
 ```
+<br>
 ```
 Start date: year-month-day 
 End date: year-month-day
+
 (example: 2023-01-01) you have to use "-" !!!
 ```
 (like in the image)

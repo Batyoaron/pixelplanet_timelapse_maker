@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+ #!/usr/bin/python3
 
 import PIL.Image
 import sys, io, os
@@ -6,7 +6,6 @@ import datetime
 import asyncio
 import aiohttp
 import json
-
 
 
 
@@ -102,8 +101,7 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
     previous_day = PIL.Image.new('RGB', (w, h), color=bkg)
     while iter_date != end_date:
         iter_date = start_date.strftime("%Y%m%d")
-        print('------------------------------------------------')
-        print('Getting frames for date %s' % (iter_date))
+        #getting frames for print deleted 
         start_date = start_date + delta
 
         fetch_canvas_size = canvas_size
@@ -159,18 +157,24 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
                 image_rel = image.copy()
                 for iy in range(yc, hc + 1):
                     for ix in range(xc, wc + 1):
+                        
                         url = 'https://storage.pixelplanet.fun/%s/%s/%s/%s/%s/%s/%s.png' % (iter_date[0:4], iter_date[4:6] , iter_date[6:], canvas_id, time, ix, iy)
                         offx = ix * 256 + offset - x
                         offy = iy * 256 + offset - y
                         tasks.append(fetch(session, url, offx, offy, image_rel, bkg))
+                        
                 await asyncio.gather(*tasks)
-                print('Got time %s' % (time))
                 cnt += 1
-                #frames.append(image.copy())
+                aday = "45"
+                if aday <= "45":
+                    day = 1
+                day = cnt // 44 + 1
+                os.system("cls")
+                print("Images downloading   |    Image: ", cnt, " |   Day: ", day)
+
                 image_rel.save('./images/t%s.png' % (cnt))
                 if time == time_list[-1]:
-                    # if last element of day, copy it to previous_day to reuse it when needed
-                    print("Remembering last frame of day.")
+                    
                     previous_day.close()
                     previous_day = image_rel.copy();
                 image_rel.close()
@@ -182,18 +186,7 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
 
 if __name__ == "__main__":
     if len(sys.argv) != 5 and len(sys.argv) != 6:
-        print("Download history of an area of pixelplanet - useful for timelapses")
-        print("")
-        print("Usage:    historyDownload.py canvasId startX_startY endX_endY start_date [end_date]")
-        print("")
-        print("→start_date and end_date are in YYYY-MM-dd formate")
-        print("→user R key on pixelplanet to copy coordinates)")
-        print("→images will be saved into timelapse folder)")
-        print("-----------")
-        print("You can create a timelapse from the resulting files with ffmpeg like that:")
-        print("ffmpeg -framerate 15 -f image2 -i timelapse/t%d.png -c:v libvpx-vp9 -pix_fmt yuva420p output.webm")
-        print("or lossless example:")
-        print("ffmpeg -framerate 15 -f image2 -i timelapse/t%d.png -c:v libvpx-vp9 -pix_fmt yuv444p -qmin 0 -qmax 0 -lossless 1 -an output.webm")
+        print("run the input.exe")
     else:
         canvas = int(sys.argv[1])
         start = sys.argv[2].split('_')
@@ -212,11 +205,4 @@ if __name__ == "__main__":
             os.mkdir('./timelapse')
         loop.run_until_complete(get_area(canvas, x, y, w, h, start_date, end_date))
         print("Done!")
-        print("to create a timelapse from it:")
-        print("ffmpeg -framerate 15 -f image2 -i timelapse/t%d.png -c:v libvpx-vp9 -pix_fmt yuva420p output.webm")
-        print("example with scaling *3 and audio track:")
-        print("ffmpeg -i ./audio.mp3 -framerate 8 -f image2 -i timelapse/t%d.png -map 0:a -map 1:v -vf scale=iw*3:-1 -shortest -c:v libvpx-vp9 -c:a libvorbis -pix_fmt yuva420p output.webm")
-        print("lossless example:")
-        print("ffmpeg -framerate 15 -f image2 -i timelapse/t%d.png -c:v libvpx-vp9 -pix_fmt yuv444p -qmin 0 -qmax 0 -lossless 1 -an output.webm")
-
 os.startfile("main.exe")

@@ -15,4 +15,4 @@ End date: year-month-day
 
  <b> Start the "launcher" to launch the main program </b>
 
-<mark> ❗ The code is made with python, but when you download it from the releases it will have ".exe" in it, if you download the python version then it will not going to work, so download it from the releases </mark>
+❗ The code is made with python, but when you download it from the releases it will have ".exe" in it, if you download the python version then it will not going to work, so download it from the releases 

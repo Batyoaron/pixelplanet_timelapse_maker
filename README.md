@@ -21,7 +21,12 @@ End date: year-month-day
 <em> Like in the image </em>
 
 ![image](https://github.com/Batyoaron/pixelplanet_timelapse_maker/assets/111697446/ca9d393f-ef71-48a3-9c77-030b3edf45d4)
+<br>
+```
+Speed:
+You can set how fast the timelapse will bem example: 30 (it will show 30 images/second)
+```
 
- <b> Start the "launcher" to launch the main program </b>
+<b> Start the "launcher" to launch the main program </b>
 
 ❗ The code is made with python, but when you download it from the releases it will have ".exe" in it, if you download the python version then it will not going to work, so download it from the releases 

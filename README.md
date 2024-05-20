@@ -5,7 +5,7 @@ Start xy: top Left corners cordinate (Navigate your mouse to the corner and pres
 End xy: bottom Right corners cordinate
 
 Start date: year-month-day (example: 2023-01-01) you have to use "-" !!!
-
+<br>
 End date: year-month-day (example: 2023-01-02) you have to use "-" !!!
 
 (like in the image)

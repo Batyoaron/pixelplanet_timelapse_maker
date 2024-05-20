@@ -2,7 +2,7 @@
 
 <center> Start xy: top Left corners cordinate (Navigate your mouse to the corner and press "R" to copy it) </center>
 
-End xy: bottom Right corners cordinate
+<center> End xy: bottom Right corners cordinate </center>
 
 
 Start date: year-month-day (example: 2023-01-01) you have to use "-" !!!

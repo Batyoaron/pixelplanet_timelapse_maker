@@ -1,6 +1,6 @@
 # pixelplanet timelapse maker
 
-Start xy: top Left corners cordinate (Navigate your mouse to the corner and press "R" to copy it) 
+<center> Start xy: top Left corners cordinate (Navigate your mouse to the corner and press "R" to copy it) </center>
 
 End xy: bottom Right corners cordinate
 

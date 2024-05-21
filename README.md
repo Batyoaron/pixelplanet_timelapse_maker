@@ -4,6 +4,8 @@
 <strong> Download here the Zip File</strong>
 </a> </h2>
 <h4 align="center"> <em> Left click on the "PixelPlanet timelapse maker.zip" to download it </em> </h4>
+<br>
+Please read the tutorial below, because half of testers got error because not knowing it!
 
 ```
 (Navigate your mouse to the corner and press "R" to copy it)

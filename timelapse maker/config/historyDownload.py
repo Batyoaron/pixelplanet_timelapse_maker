@@ -1,67 +1,65 @@
- #!/usr/bin/python3
+#!/usr/bin/python3
 
-import PIL.Image
-import sys, io, os
+import sys
+import io
+import os
 import datetime
 import asyncio
 import aiohttp
 import json
+import PIL.Image
 
+semaphore = asyncio.Semaphore(100)  
 
+try:
+    with open("date", 'r') as file:
+        dateee = file.read()
+except FileNotFoundError:
+    print(f"File not found.")
 
-
-
-
-# how many frames to skip
-#  1 means none
-#  2 means that every second frame gets captured
-#  3 means every third
-#  [...]
 frameskip = 1
 
 canvases = [
-        {
-            "canvas_name": "earth",
-            "canvas_size": 256*256,
-            "canvas_id": 0,
-            "bkg": (202, 227, 255),
-        },
-        {
-            "canvas_name": "moon",
-            "canvas_size": 16384,
-            "canvas_id": 1,
-            "bkg": (49, 46, 47),
-            "historical_sizes" : [
-                    ["20210417", 4096],
-                ]
-        },
-        {
-        },
-        {
-            "canvas_name": "corona",
-            "canvas_size": 256,
-            "canvas_id": 3,
-            "bkg": (33, 28, 15),
-        },
-        {
-            "canvas_name": "compass",
-            "canvas_size": 1024,
-            "canvas_id": 4,
-            "bkg": (196, 196, 196),
-        },
-        {
-        },
-        {
-        },
-        {
-            "canvas_name": "1bit",
-            "canvas_size": 256*256,
-            "canvas_id": 7,
-            "bkg": (0, 0, 0),
-        },
-    ]
+    {
+        "canvas_name": "earth",
+        "canvas_size": 256 * 256,
+        "canvas_id": 0,
+        "bkg": (202, 227, 255),
+    },
+    {
+        "canvas_name": "moon",
+        "canvas_size": 16384,
+        "canvas_id": 1,
+        "bkg": (49, 46, 47),
+        "historical_sizes": [
+            ["20210417", 4096],
+        ]
+    },
+    {},
+    {
+        "canvas_name": "corona",
+        "canvas_size": 256,
+        "canvas_id": 3,
+        "bkg": (33, 28, 15),
+    },
+    {
+        "canvas_name": "compass",
+        "canvas_size": 1024,
+        "canvas_id": 4,
+        "bkg": (196, 196, 196),
+    },
+    {},
+    {},
+    {
+        "canvas_name": "1bit",
+        "canvas_size": 256 * 256,
+        "canvas_id": 7,
+        "bkg": (0, 0, 0),
+    },
+]
 
-async def fetch(session, url, offx, offy, image, bkg, needed = False):
+
+async def fetch(session, url, offx, offy, image, bkg, needed=False):
     attempts = 0
     while True:
         try:
@@ -87,6 +85,7 @@ async def fetch(session, url, offx, offy, image, bkg, needed = False):
             attempts += 1
             pass
 
+
 async def get_area(canvas, x, y, w, h, start_date, end_date):
     canvas_data = canvases[canvas]
     canvas_id = canvas_data["canvas_id"]
@@ -96,12 +95,11 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
     delta = datetime.timedelta(days=1)
     end_date = end_date.strftime("%Y%m%d")
     iter_date = None
+    day = 0
     cnt = 0
-    #frames = []
     previous_day = PIL.Image.new('RGB', (w, h), color=bkg)
     while iter_date != end_date:
         iter_date = start_date.strftime("%Y%m%d")
-        #getting frames for print deleted 
         start_date = start_date + delta
 
         fetch_canvas_size = canvas_size
@@ -117,26 +115,26 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
         wc = (x + w - offset) // 256
         yc = (y - offset) // 256
         hc = (y + h - offset) // 256
-        print("Load from %s / %s to %s / %s" % (xc, yc, wc + 1, hc + 1))
 
         tasks = []
         async with aiohttp.ClientSession() as session:
             image = PIL.Image.new('RGBA', (w, h))
             for iy in range(yc, hc + 1):
                 for ix in range(xc, wc + 1):
-                    url = 'https://storage.pixelplanet.fun/%s/%s/%s/%s/tiles/%s/%s.png' % (iter_date[0:4], iter_date[4:6] , iter_date[6:], canvas_id, ix, iy)
+                    url = 'https://storage.pixelplanet.fun/%s/%s/%s/%s/tiles/%s/%s.png' % (
+                    iter_date[0:4], iter_date[4:6], iter_date[6:], canvas_id, ix, iy)
                     offx = ix * 256 + offset - x
                     offy = iy * 256 + offset - y
                     tasks.append(fetch(session, url, offx, offy, image, bkg, True))
             await asyncio.gather(*tasks)
-            print('Got start of day')
-            # check if image is all just one color to lazily detect if whole full backup was 404
+
+            day += 1
+
             clr = image.getcolors(1)
             if clr is not None:
                 print("Got faulty full-backup frame, using last frame from previous day instead.")
                 image = previous_day.copy()
             cnt += 1
-            #frames.append(image.copy())
             image.save('./timelapse/t%s.png' % (cnt))
             while True:
                 async with session.get('https://pixelplanet.fun/history?day=%s&id=%s' % (iter_date, canvas_id)) as resp:
@@ -151,42 +149,37 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
                 if (i % frameskip) != 0:
                     continue
                 if time == '0000':
-                    # 0000 incremential backups are faulty
                     continue
                 tasks = []
                 image_rel = image.copy()
                 for iy in range(yc, hc + 1):
                     for ix in range(xc, wc + 1):
-                        
-                        url = 'https://storage.pixelplanet.fun/%s/%s/%s/%s/%s/%s/%s.png' % (iter_date[0:4], iter_date[4:6] , iter_date[6:], canvas_id, time, ix, iy)
+                        url = 'https://storage.pixelplanet.fun/%s/%s/%s/%s/%s/%s/%s.png' % (
+                        iter_date[0:4], iter_date[4:6], iter_date[6:], canvas_id, time, ix, iy)
                         offx = ix * 256 + offset - x
                         offy = iy * 256 + offset - y
                         tasks.append(fetch(session, url, offx, offy, image_rel, bkg))
-                        
+
                 await asyncio.gather(*tasks)
                 cnt += 1
-                aday = "45"
-                if aday <= "45":
-                    day = 1
-                day = cnt // 44 + 1
                 os.system("cls")
-                print("Images downloading   |    Image: ", cnt, " |   Day: ", day)
+                print(" [I] Images downloading   |    Image: ", cnt, " |   Day: ", day,)
+                print(dateee)
+                print(
+                    " [!] If you want to end the image downloader process (because you think its enough image), close this window manually, and open main.exe in config folder")
 
                 image_rel.save('./images/t%s.png' % (cnt))
                 if time == time_list[-1]:
-                    
                     previous_day.close()
-                    previous_day = image_rel.copy();
+                    previous_day = image_rel.copy()
                 image_rel.close()
             image.close()
     previous_day.close()
-    # this would save a gif right out of the script, but giffs are huge and not good
-    #frames[0].save('timelapse.png', save_all=True, append_images=frames[1:], duration=100, loop=0, default_image=False, blend=1)
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 5 and len(sys.argv) != 6:
-        print("run the input.exe")
+        print("Run the launcher.exe")
     else:
         canvas = int(sys.argv[1])
         start = sys.argv[2].split('_')
@@ -205,4 +198,5 @@ if __name__ == "__main__":
             os.mkdir('./timelapse')
         loop.run_until_complete(get_area(canvas, x, y, w, h, start_date, end_date))
         print("Done!")
+
 os.startfile("main.exe")

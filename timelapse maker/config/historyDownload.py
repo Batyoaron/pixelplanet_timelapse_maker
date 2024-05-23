@@ -165,8 +165,7 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
                 os.system("cls")
                 print(" [I] Images downloading   |    Image: ", cnt, " |   Day: ", day,)
                 print(dateee)
-                print(
-                    " [!] If you want to end the image downloader process (because you think its enough image), close this window manually, and open main.exe in config folder")
+
 
                 image_rel.save('./images/t%s.png' % (cnt))
                 if time == time_list[-1]:

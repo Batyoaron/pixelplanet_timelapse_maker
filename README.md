@@ -34,4 +34,13 @@ Speed:
 You can set how fast the timelapse will be, example: 30 (it will show 30 images/second)
 ```
 <br>
-<b> Start the "launcher.exe" to launch the main program </b>
+<h2> Tutorial: </h2>
+<b> 1. Start the "launcher.exe" to launch the main program </b>
+<br>
+<b> 2. Write the start and end cordinates to the input field </b>
+<br>
+<b> 3. Write the start and end dates to the input field </b>
+<br>
+<b> 4. Write how fast the final timelapse have to be (fps, images/second) </b>
+<br>
+<b> 5. It will do the rest by itself, but it needs time to finish everything. The final timelapse will be on the desktop</b>

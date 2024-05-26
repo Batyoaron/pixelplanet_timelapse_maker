@@ -9,7 +9,7 @@ import aiohttp
 import json
 import PIL.Image
 
-semaphore = asyncio.Semaphore(100)  
+semaphore = asyncio.Semaphore(500)  
 
 try:
     with open("date", 'r') as file:
@@ -135,7 +135,7 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
                 print("Got faulty full-backup frame, using last frame from previous day instead.")
                 image = previous_day.copy()
             cnt += 1
-            image.save('./timelapse/t%s.png' % (cnt))
+            image.save('./images/t%s.png' % (cnt))
             while True:
                 async with session.get('https://pixelplanet.fun/history?day=%s&id=%s' % (iter_date, canvas_id)) as resp:
                     try:
@@ -163,7 +163,7 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
                 await asyncio.gather(*tasks)
                 cnt += 1
                 os.system("cls")
-                print(" [I] Images downloading   |    Image: ", cnt, " |   Day: ", day,)
+                print(" [I] Images downloading  |    Image: ", cnt, " |   Day: ", day,)
                 print(dateee)
 
 
@@ -193,8 +193,8 @@ if __name__ == "__main__":
         w = int(end[0]) - x + 1
         h = int( end[1]) - y + 1
         loop = asyncio.get_event_loop()
-        if not os.path.exists('./timelapse'):
-            os.mkdir('./timelapse')
+        if not os.path.exists('./images'):
+            os.mkdir('./images')
         loop.run_until_complete(get_area(canvas, x, y, w, h, start_date, end_date))
         print("Done!")
 

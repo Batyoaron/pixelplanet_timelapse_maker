@@ -34,6 +34,8 @@ Speed:
 You can set how fast the timelapse will be, example: 30 (it will show 30 images/second)
 ```
 <br>
+<h3>❗ This program uses historyDownload.py from https://git.pixelplanet.fun/</h3>
+<br>
 <h2> Tutorial: </h2>
 <b> 1. Start the "launcher.exe" to launch the main program </b>
 <br>

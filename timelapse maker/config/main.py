@@ -6,8 +6,8 @@ import shutil
 import os
 
 
-desktop = os.path.join(os.path.expanduser('~'), 'Desktop')
-
+desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
+os.system("cls")
 
 def create_video_from_images(image_folder, output_path, fps):
     image_files = sorted(os.listdir(image_folder))

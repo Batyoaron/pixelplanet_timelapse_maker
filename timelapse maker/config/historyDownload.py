@@ -11,6 +11,13 @@ import PIL.Image
 
 semaphore = asyncio.Semaphore(500)  
 
+
+try:
+    with open("days", 'r') as file:
+        daysss = file.read()
+except FileNotFoundError:
+    print(f"File not found.")
+
 try:
     with open("date", 'r') as file:
         dateee = file.read()
@@ -163,7 +170,7 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
                 await asyncio.gather(*tasks)
                 cnt += 1
                 os.system("cls")
-                print(" [I] Images downloading  |    Image: ", cnt, " |   Day: ", day,)
+                print(" [I] Images downloading  |    Image: ", cnt, " |   Day: ", day, "/", daysss)
                 print(dateee)
 
 

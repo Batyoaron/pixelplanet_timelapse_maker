@@ -1,6 +1,6 @@
 <h2 align="center"> Pixelplanet Timelapse Maker </h2> 
 <h2 align="center">
-▶ <a href ="https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/tag/ptm1.3.1">
+▶ <a href ="https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/tag/ptm1.3.2"
 <strong> Download here the Zip File</strong>
 </a> </h2>
 <h4 align="center"> <em> Left click on the "PixelPlanet timelapse maker.zip" to download it </em> </h4>

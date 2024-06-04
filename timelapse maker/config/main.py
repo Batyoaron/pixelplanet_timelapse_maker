@@ -6,7 +6,18 @@ import shutil
 import os
 
 
-desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
+try:
+    with open("name", 'r') as file:
+        namess = file.read()
+except FileNotFoundError:
+    print("file not found")
+
+try:
+    with open("outputpath.txt", 'r') as file:
+        opath = file.read()
+except FileNotFoundError:
+    opath = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop') 
+
 os.system("cls")
 
 def create_video_from_images(image_folder, output_path, fps):
@@ -66,8 +77,8 @@ except ValueError:
     speed = 30.0
 
 image_folder = "images"
-output_path = os.path.join(desktop, 'timelapse.mp4')
-
+file_extension = '.mp4'
+output_path = os.path.join(opath, namess + file_extension)
 create_video_from_images(image_folder, output_path, speed)
 
 os.startfile("end.exe")

@@ -13,8 +13,14 @@ semaphore = asyncio.Semaphore(500)
 
 
 try:
+    with open("name", 'r') as file:
+        nametimelapse = file.read()
+except FileNotFoundError:
+    print(f"File not found.")
+
+try:
     with open("days", 'r') as file:
-        daysss = file.read()
+        daysss = int(file.read().strip())  
 except FileNotFoundError:
     print(f"File not found.")
 
@@ -136,6 +142,7 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
             await asyncio.gather(*tasks)
 
             day += 1
+            days_left = daysss - day
 
             clr = image.getcolors(1)
             if clr is not None:
@@ -170,7 +177,8 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
                 await asyncio.gather(*tasks)
                 cnt += 1
                 os.system("cls")
-                print(" [I] Images downloading  |    Image: ", cnt, " |   Day: ", day, "/", daysss)
+                print(" [N] Project name: " , nametimelapse)
+                print(" [I] Images downloading  |    Image: ", cnt, " |   Day: ", day, "/", daysss, "   | Days left: ", days_left)
                 print(dateee)
 
 

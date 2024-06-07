@@ -45,9 +45,11 @@ Speed: You can set how fast the timelapse will be,   example: 30 (it will show 3
 <h3> Presets menu: </h3>
 
 ```
-[1]: Make preset     <-- Creates a preset, give them the start and an end cordinates, it will save it for later. 
+[1]: Make preset     <-- Creates a preset, give them the start and an end cordinates,
+it will save it for later. 
 
-[2]: Load preset     <-- Loads a preset that you made later, you just need to give him start date and end date.
+[2]: Load preset     <-- Loads a preset that you made later,
+you just need to give him start date and end date.
 
 [3]: Delete preset     <-- Deletes a preset that you made later.
 ```

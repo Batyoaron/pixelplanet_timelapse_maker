@@ -11,7 +11,8 @@
 <h3> Main menu: </h3>
 
 ```
-[1]: Make timelapse now     <-- Main timelapse maker, its just needs the name, cordinates, time, speed to make a timelapse
+[1]: Make timelapse now     <-- Main timelapse maker, its just needs the name, cordinates, time, speed
+to make a timelapse
 
 [2]: Presets     <-- Preset system menu, you can add, load or delete presets.
 If you don't want to always copy and paste the cordinates when making timelapse from the same place,

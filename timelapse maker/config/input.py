@@ -61,15 +61,17 @@ if menuuu == "3":
     if stsmenu == "q":
         os.startfile("input.exe")
         exit()
+
     if stsmenu == "1":
         if os.path.isfile("outputpath.txt"):
             os.remove("outputpath.txt")
-        savetimelapse = input("\n [Output path]: ")
-        f = open("outputpath.txt", "+a")
+        f = open("outputpath.txt", "a+")
+
+        savetimelapse = input("\n [Drag the folder into this window]: ")
         f.write(savetimelapse)
-        f.close
         print(" Changes saved !")
         print(" Quitting in 3 seconds...")
+        f.close()
         time.sleep(3)
         os.startfile("input.exe")
         exit()
@@ -199,6 +201,7 @@ if menuuu == "2":
         cmd_command = "historyDownload.exe 0 ", loadpresetcordss, loadpresetcordse, startdateload, enddateload  ### REPLACE WITH  EXE WHEN CONVERTED
         cmd_string = " ".join(cmd_command)
         os.system(cmd_string)
+        time.sleep(2)
         exit()
 
     
@@ -234,51 +237,56 @@ if menuuu == "2":
 
 #### main timelapse maker
 if menuuu == "1":
-    pass
-
-os.system("cls")
-print("\n [T] Timelapse maker\n")
-nametimelapse = input(" Name of the video: ")
-a = input(" Start x,y coordinates: ")
-b = input(" End x,y coordinates: ")
-startdate = input(" Start time: ")
-enddate = input(" End time: ")
-speed = input(" Timelapse speed(fps): ")
+    os.system("cls")
+    print("\n [T] Timelapse maker\n")
+    nametimelapse = input(" Name of the video: ")
+    a = input(" Start x,y coordinates: ")
+    b = input(" End x,y coordinates: ")
+    startdate = input(" Start time: ")
+    enddate = input(" End time: ")
+    speed = input(" Timelapse speed(fps): ")
 
 
-def count_days(start_date, end_date):
-    start_datetime = datetime.strptime(start_date, "%Y-%m-%d")
-    end_datetime = datetime.strptime(end_date, "%Y-%m-%d")
-    delta = end_datetime - start_datetime
-    num_days = delta.days + 1 
-    return num_days
-days = count_days(startdate, enddate)
-dayss = days
+    def count_days(start_date, end_date):
+        start_datetime = datetime.strptime(start_date, "%Y-%m-%d")
+        end_datetime = datetime.strptime(end_date, "%Y-%m-%d")
+        delta = end_datetime - start_datetime
+        num_days = delta.days + 1 
+        return num_days
+    days = count_days(startdate, enddate)
+    dayss = days
 
-#name write
-f = open("name", "a")
-f.write(str(nametimelapse))
-f.close()
+    #name write
+    f = open("name", "a")
+    f.write(str(nametimelapse))
+    f.close()
 
-#days write
-f = open("days", "a")
-f.write(str(dayss))
-f.close()
+    #days write
+    f = open("days", "a")
+    f.write(str(dayss))
+    f.close()
 
-#speed write
-f = open("speed", "+a")
-f.write(speed)
-f.close()
+    #speed write
+    f = open("speed", "+a")
+    f.write(speed)
+    f.close()
 
-#date write
-date = (" [D] Start date: " + startdate + "    |  End date: " + enddate)
-f = open("date", "+a")
-f.write(str(date))
-f.close()
+    #date write
+    date = (" [D] Start date: " + startdate + "    |  End date: " + enddate)
+    f = open("date", "+a")
+    f.write(str(date))
+    f.close()
 
-print("image download starting")
-cmd_command = "historyDownload.exe 0 ", a, b, startdate, enddate  ### REPLACE WITH  EXE WHEN CONVERTED
-cmd_string = " ".join(cmd_command)
-os.system(cmd_string)
+    print(" image download starting")
+    cmd_command = "historyDownload.exe 0 ", a, b, startdate, enddate  ### REPLACE WITH  EXE WHEN CONVERTED
+    cmd_string = " ".join(cmd_command)
+    os.system(cmd_string)
+    time.sleep(2)
+    exit()
 
+
+print("\n Only use the options that are available")
+time.sleep(3)
+os.startfile("input.exe")
+exit()
 

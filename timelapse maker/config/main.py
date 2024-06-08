@@ -2,29 +2,25 @@ import cv2
 import os
 import re
 import time
-import shutil
-import os
-
 
 try:
     with open("name", 'r') as file:
-        namess = file.read()
+        namess = file.read().strip() 
 except FileNotFoundError:
-    print("file not found")
+    print("File 'name' not found.")
+    namess = "output"  
 
 try:
     with open("outputpath.txt", 'r') as file:
-        opath = file.read()
+        opath = file.read().strip()  
 except FileNotFoundError:
-    opath = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop') 
+    opath = os.path.join(os.path.expanduser('~'), 'Desktop')
 
 os.system("cls")
 
 def create_video_from_images(image_folder, output_path, fps):
-    image_files = sorted(os.listdir(image_folder))
-    image_files = [file for file in image_files if file.endswith('.png')]
-
-    image_files = sorted(image_files, key=lambda x: int(re.findall('\d+', x)[0]))
+    image_files = sorted([file for file in os.listdir(image_folder) if file.endswith('.png')])
+    image_files = sorted(image_files, key=lambda x: int(re.findall(r'\d+', x)[0]))
 
     if len(image_files) == 0:
         print("No image files found in the specified folder.")
@@ -35,17 +31,15 @@ def create_video_from_images(image_folder, output_path, fps):
     if first_image is None:
         print(f"Error reading the first image from {first_image_path}")
         return
-    height, width, channels = first_image.shape
+    height, width, _ = first_image.shape
 
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-
+    # Use H.264 codec
+    fourcc = cv2.VideoWriter_fourcc(*'avc1')
     video_writer = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
-
 
     start_time = time.time()
     total_images = len(image_files)
-    
-
+    os.system("cls")
 
     for index, image_file in enumerate(image_files):
         image_path = os.path.join(image_folder, image_file)
@@ -58,7 +52,6 @@ def create_video_from_images(image_folder, output_path, fps):
         avg_time_per_image = elapsed_time / (index + 1)
         remaining_time = avg_time_per_image * (total_images - index - 1)
         print(f"\rProcessing image {index + 1}/{total_images}, estimated remaining time: {int(remaining_time)} seconds", end='')
-        
 
     video_writer.release()
     cv2.destroyAllWindows()
@@ -79,6 +72,9 @@ except ValueError:
 image_folder = "images"
 file_extension = '.mp4'
 output_path = os.path.join(opath, namess + file_extension)
+
 create_video_from_images(image_folder, output_path, speed)
 
+
 os.startfile("end.exe")
+

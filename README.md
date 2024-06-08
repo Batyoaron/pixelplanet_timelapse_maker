@@ -58,7 +58,7 @@ you just need to give him start date and end date.
 
 <h3>❗ This program uses historyDownload.py from https://git.pixelplanet.fun/</h3>
 <br>
-<h2> Tutorial: </h2>
+<h2> Tutorial(step by step): </h2>
 <b> 1. Start the "launcher.exe" to launch the main program </b>
 <br>
 <b> 2. In the menu, select the first option(Make timelapse now)</b>

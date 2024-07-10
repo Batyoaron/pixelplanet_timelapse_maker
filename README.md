@@ -5,7 +5,7 @@
 </a> </h2>
 <h4 align="center"> Please read the tutorial below, because half of testers got error because not knowing it!</h4>
 <br>
-<h4 align="center">Final video may be corrupt, i suspect something got changed in pixelplanet because in older versions its bad too!</h4>
+<h3 align="center">⚠Final video may be corrupt, i suspect something got changed in pixelplanet because in older versions its bad too!</h3>
 <br>
 <h2 align="center"> Tutorial</h2>
 

@@ -5,8 +5,6 @@
 </a> </h2>
 <h4 align="center"> Please read the tutorial below, because half of testers got error because not knowing it!</h4>
 <br>
-<h3 align="center">⚠Final video may be corrupt, i suspect something got changed in pixelplanet because in older versions its bad too!</h3>
-<br>
 <h2 align="center"> Tutorial</h2>
 
 <h3> Main menu: </h3>

@@ -23,7 +23,7 @@ then you can pre set the cordinates and save one. Load it later and you just nee
 <h3> Timelapse maker menu: </h3>
 
 ```
-Name: Name of the timelapse
+Name: Name of the timelapse (avoid using spaces)
 
 Start xy: top Left corners cordinate   (Navigate your mouse to the corner and press "R" to copy it)
 

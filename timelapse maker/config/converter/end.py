@@ -1,5 +1,4 @@
 import os
-import shutil
 print(" Timelapse sucessfully created, you can close this window now")
 
 try:
@@ -17,8 +16,7 @@ if os.path.isfile("outputpath.txt"):
 else:
     print(" You can find the timelapse in the desktop !")
 print(" If you cant find the timelapse video, then use windows searcher, and search for it.")
+print(" If you can see two videos, delete the one that has NO underscore in the end of its name")
 os.remove("convertercommand")
 os.remove("convertercommandsecond")
-if os.path.isfile("outputpath.txt"):
-    os.remove("outputpath.txt")
 input()

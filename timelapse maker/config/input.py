@@ -10,6 +10,19 @@ maintext = '''
  Please DM: 'averagebatyoenjoyer' in discord if you find an issue
 
 '''
+
+if os.path.isfile("outputpath.txt"):
+    pass
+else:
+    deafult_path = input(" Please give me a default path where to save the videos(easier if you create a folder and drag the folder into this window): ")
+    if " " in deafult_path:
+        print("\n Avoid using spaces in the choosen path")
+        deafult_path = input(" Please give me a default path where to save the videos: ")
+    f = open("outputpath.txt", "a")
+    f.write(deafult_path)
+    f.close()
+    os.system("cls")
+
 print(maintext)
 
 if os.path.isfile("speed"):
@@ -240,10 +253,38 @@ if menuuu == "1":
     os.system("cls")
     print("\n [T] Timelapse maker\n")
     nametimelapse = input(" Name of the video: ")
-    a = input(" Start x,y coordinates: ")
+    if " " in nametimelapse:
+        print("\n Avoid using spaces in the name, try again")
+        nametimelapse = input(" Name of the video: ")
+
+    a = input(" Start x,y coordinates: ") #example 2870_-10459
+    if "_" in a:
+        pass
+    else:
+        print("\n Hmmm.. i dont think you entered this right, try again, read the tutorial in github!")
+        a = input(" Start x,y coordinates: ")
+
     b = input(" End x,y coordinates: ")
+    if "_" in b:
+        pass
+    else:
+        print("\n Hmmm.. i dont think you entered this right, try again, read the tutorial in github!")
+        b = input(" End x,y coordinates: ")
+
     startdate = input(" Start time: ")
+    if "-" in startdate:
+        pass
+    else:
+        print("\n You entered this wrong, try again, read the tutorial in github")
+        startdate = input(" Start time: ")
+    
     enddate = input(" End time: ")
+    if "-" in enddate:
+        pass
+    else:
+        print("\n You entered this wrong, try again, read the tutorial in github")
+        enddate = input(" End time: ")
+
     speed = input(" Timelapse speed(fps): ")
 
 

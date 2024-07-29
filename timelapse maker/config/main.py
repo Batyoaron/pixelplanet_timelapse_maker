@@ -96,7 +96,7 @@ shutil.move(fromm, to)
 if os.path.isfile("outputpath.txt"):
     fromm = "outputpath.txt"
     to = "converterpart/"
-    shutil.move(fromm, to)
+    shutil.copy(fromm, to)
 
 if os.path.isfile("convertercommand"):
     os.remove("convertercommand")
@@ -107,4 +107,3 @@ os.mkdir("images")
 
 os.chdir("converterpart")
 os.startfile("converter.exe")
-

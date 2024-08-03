@@ -319,7 +319,7 @@ if menuuu == "1":
     f.close()
 
     print(" image download starting")
-    cmd_command = "historyDownload.exe 0 ", a, b, startdate, enddate  ### REPLACE WITH  EXE WHEN CONVERTED
+    cmd_command = "historyDownload.py 0 ", a, b, startdate, enddate  ### REPLACE WITH  EXE WHEN CONVERTED
     cmd_string = " ".join(cmd_command)
     os.system(cmd_string)
     time.sleep(2)

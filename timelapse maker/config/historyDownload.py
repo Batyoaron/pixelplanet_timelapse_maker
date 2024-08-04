@@ -8,27 +8,31 @@ import asyncio
 import aiohttp
 import json
 import PIL.Image
+import time
 
-semaphore = asyncio.Semaphore(500)  
 
+semaphore = asyncio.Semaphore(500)
 
 try:
     with open("name", 'r') as file:
         nametimelapse = file.read()
 except FileNotFoundError:
-    print(f"File not found.")
+    print("File 'name' not found.")
+    sys.exit(1)
 
 try:
     with open("days", 'r') as file:
-        daysss = int(file.read().strip())  
+        daysss = int(file.read().strip())
 except FileNotFoundError:
-    print(f"File not found.")
+    print("File 'days' not found.")
+    sys.exit(1)
 
 try:
     with open("date", 'r') as file:
         dateee = file.read()
 except FileNotFoundError:
-    print(f"File not found.")
+    print("File 'date' not found.")
+    sys.exit(1)
 
 frameskip = 1
 
@@ -71,6 +75,8 @@ canvases = [
     },
 ]
 
+os.system("cls")
+print(" [I] Program needs to prepare for long time, the time of the preparation will take like 2-7 minutes\n but its depending on the time distance you gave the program \n \n Ignore the error under this message \n \n")
 
 async def fetch(session, url, offx, offy, image, bkg, needed=False):
     attempts = 0
@@ -98,6 +104,27 @@ async def fetch(session, url, offx, offy, image, bkg, needed=False):
             attempts += 1
             pass
 
+async def calculate_total_images(canvas, start_date, end_date):
+    canvas_data = canvases[canvas]
+    canvas_id = canvas_data["canvas_id"]
+    delta = datetime.timedelta(days=1)
+    total_images = 0
+    temp_date = start_date
+
+    while temp_date <= end_date:
+        async with aiohttp.ClientSession() as session:
+            async with session.get('https://pixelplanet.fun/history?day=%s&id=%s' % (temp_date.strftime("%Y%m%d"), canvas_id)) as resp:
+                try:
+                    time_list = json.loads(await resp.text())
+                    total_images += len(time_list)
+                except:
+                    print('Couldn\'t decode json for day %s, trying again' % (temp_date.strftime("%Y%m%d")))
+        temp_date += delta
+
+    if total_images == 0:
+        total_images = 1  # to avoid division by zero
+
+    return total_images
 
 async def get_area(canvas, x, y, w, h, start_date, end_date):
     canvas_data = canvases[canvas]
@@ -106,12 +133,18 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
     bkg = canvas_data["bkg"]
 
     delta = datetime.timedelta(days=1)
-    end_date = end_date.strftime("%Y%m%d")
+    end_date_str = end_date.strftime("%Y%m%d")
     iter_date = None
     day = 0
     cnt = 0
     previous_day = PIL.Image.new('RGB', (w, h), color=bkg)
-    while iter_date != end_date:
+    
+    total_images = await calculate_total_images(canvas, start_date, end_date)
+
+    import time
+    start_time = time.time()
+
+    while iter_date != end_date_str:
         iter_date = start_date.strftime("%Y%m%d")
         start_date = start_date + delta
 
@@ -176,11 +209,31 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
 
                 await asyncio.gather(*tasks)
                 cnt += 1
+                percentage = (cnt / total_images) * 100
+                import time
+                elapsed_time = time.time() - start_time
+                
+                # Estimate remaining time
+                if cnt > 0:
+                    average_time_per_image = elapsed_time / cnt
+                    estimated_remaining_time = average_time_per_image * (total_images - cnt)
+                else:
+                    estimated_remaining_time = 0
+
+
+                hours = int(estimated_remaining_time // 3600)
+                minutes = int((estimated_remaining_time % 3600) // 60)
+                seconds = int(estimated_remaining_time % 60)
+                
                 os.system("cls")
                 print(" [N] Project name: " , nametimelapse)
-                print(" [I] Images downloading  |    Image: ", cnt, " |   Day: ", day, "/", daysss, "   | Days left: ", days_left)
+                print(" [I] Images downloading  |    Image: ", cnt, "/", total_images ," |   Day: ", day, "/", daysss, "   | Days left: ", days_left)
+                print(" [P] Progress: %.2f%%" % percentage)
+                if day >= 2:
+                    print(" [T] Estimated time remaining: %02d:%02d:%02d" % (hours, minutes, seconds))
+                else:
+                    print(" [T] Calculating estimated remaining time...")
                 print(dateee)
-
 
                 image_rel.save('./images/t%s.png' % (cnt))
                 if time == time_list[-1]:
@@ -189,7 +242,6 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
                 image_rel.close()
             image.close()
     previous_day.close()
-
 
 if __name__ == "__main__":
     if len(sys.argv) != 5 and len(sys.argv) != 6:
@@ -206,7 +258,7 @@ if __name__ == "__main__":
         x = int(start[0])
         y = int(start[1])
         w = int(end[0]) - x + 1
-        h = int( end[1]) - y + 1
+        h = int(end[1]) - y + 1
         loop = asyncio.get_event_loop()
         if not os.path.exists('./images'):
             os.mkdir('./images')

@@ -1,3 +1,9 @@
+<h2 align="center"> Pixelplanet Timelapse Maker </h2> 
+<h2 align="center">
+▶ <a href ="https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/download/ptm1.4.4/pixelplanet.timelapse.maker.zip"
+<strong> Click me to Download the file! (Version 1.4.4)</strong>
+</a> </h2>
+
 <h2 align="center"> Tutorial</h2>
 <h3 align="center"> Please read the tutorial below, because half of testers got error because not knowing it!</h3>
 <br>

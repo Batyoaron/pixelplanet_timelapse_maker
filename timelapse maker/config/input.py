@@ -17,7 +17,7 @@ def check_github_release(owner, repo, tag):
         response.raise_for_status()
 owner = "Batyoaron"
 repo = "pixelplanet_timelapse_maker"
-tag = "ptm1.4.4" # this is 1.4.4 and checking if 1.4.5 is available
+tag = "ptm1.4.5" # this is 1.4.4 and checking if 1.4.5 is available
 
 os.system("cls")
 

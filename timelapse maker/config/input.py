@@ -1,14 +1,31 @@
 import os
 from datetime import datetime
 import time
+import zipfile
 import shutil
+import requests
+
+def check_github_release(owner, repo, tag):
+    url = f"https://api.github.com/repos/{owner}/{repo}/releases/tags/{tag}"
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        return True
+    elif response.status_code == 404:
+        return False
+    else:
+        response.raise_for_status()
+owner = "Batyoaron"
+repo = "pixelplanet_timelapse_maker"
+tag = "ptm1.4.4" # this is 1.4.4 and checking if 1.4.5 is available
+
 os.system("cls")
 
 maintext = '''
  PixelPlanet.fun timelapse maker
  By: PixelHungary
- Please DM: 'averagebatyoenjoyer' in discord if you find an issue
-
+ Please DM: 'averagebatyoenjoyer' in discord if you find an issue, or if you need help in anything
+ Current version: 1.4.4
 '''
 
 if os.path.isfile("outputpath.txt"):
@@ -24,6 +41,11 @@ else:
     os.system("cls")
 
 print(maintext)
+#check if new version is available (this is version 1.4.4 so we have to check if 1.4.5 is exists)
+if check_github_release(owner, repo, tag):
+    print(f" New version is available. You can download it in the settings")
+else:
+    pass
 
 if os.path.isfile("speed"):
     os.remove("speed")
@@ -37,7 +59,8 @@ if os.path.isfile("name"):
 settingsmenu = '''
  [S] Settings Menu
  
- [1]: Set where to save the timelapse 
+ [1]: Set where to save the timelapse
+ [2]: Download new version
  [q]: Quit
 
 '''
@@ -74,6 +97,88 @@ if menuuu == "3":
     if stsmenu == "q":
         os.startfile("input.exe")
         exit()
+    
+    # download new version part
+    if stsmenu == "2":
+        os.system("cls")
+        if check_github_release(owner, repo, tag):
+            print(" New version is available, do you want to download it?")
+            print(" [1]: Yes")
+            print(" [2]: No")
+            new_version = input(f" []: ")
+            if new_version == "1":
+                os.system("cls")
+                get_path_for_new_version = input(" [Drag the folder into this window where you want to save the new version]: ")
+                if " " in get_path_for_new_version:
+                    print(" Avoid using spaces in folder name")
+                    get_path_for_new_version = input(" [Drag the folder into this window where you want to save the new version]: ")
+
+                def download_and_decompress(url, download_path, extract_path):
+                    if not isinstance(download_path, str):
+                        raise TypeError(f"Expected 'download_path' to be a str, got {str(download_path)}")
+                    if not isinstance(extract_path, str):
+                        raise TypeError(f"Expected 'extract_path' to be a str, got {str(extract_path)}")
+
+                    print(" Starting download...")
+                    response = requests.get(url)
+                    with open(download_path, 'wb') as file:
+                        file.write(response.content)
+                    print(f" Downloaded to {download_path}")
+                    print(" Starting decompression...")
+                    with zipfile.ZipFile(download_path, 'r') as zip_ref:
+                        zip_ref.extractall(extract_path)
+                    print(f" Decompressed to {extract_path}")
+                    os.remove(download_path)
+                    print(f" Removed the zip file {download_path}")
+                url = "https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/download/ptm1.4.5/pixelplanet.timelapse.maker.zip" #### REWRITE WHEN NEW VERSION COMES OUT
+                download_path = os.path.join(get_path_for_new_version, "pixelplanet.timelapse.maker.zip")
+                extract_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker")
+                download_and_decompress(url, download_path, extract_path)
+
+                os.system("cls")
+                print(" Download finished!")
+                print(" Do you want to move your data from the older version to the new one?")
+                print(" [1]: Yes")
+                print(" [2]: No")
+                move_presets = input(" []: ")
+
+                if move_presets == "1":
+                    to_new_version  = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet timelapse maker", "config")
+                    if os.path.isfile("outputpath.txt"):
+                        shutil.move("outputpath.txt", to_new_version)
+                    remove_new_preset = os.path.join(to_new_version, "presets")
+                    os.rmdir(remove_new_preset)
+                    shutil.move("presets", to_new_version)
+                    print(" Everything setup ! You can remove this version manually")
+                    print(" Launching new version in 5 seconds!")
+                    time.sleep(5)
+                    launcher_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet timelapse maker", "config", "input.exe")
+                    os.startfile(launcher_path)
+                    exit()
+
+
+                if move_presets == "2":
+                    print(" Everything setup !")
+                    print(" Launching new version in 5 seconds!")
+                    time.sleep(5)
+                    launcher_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet timelapse maker", "config", "input.exe")
+                    os.startfile(launcher_path)
+                    exit()
+
+
+
+            else:
+                print(" Quitting in 3 seconds...")
+                time.sleep(3)
+                os.startfile("input.exe")
+                exit()
+
+        else:
+            print(" I cannot find the new version, maybe its not out yet")
+            print(" Quitting in 3 seconds...")
+            time.sleep(3)
+            os.startfile("input.exe")
+            exit()
 
     if stsmenu == "1":
         if os.path.isfile("outputpath.txt"):
@@ -81,6 +186,9 @@ if menuuu == "3":
         f = open("outputpath.txt", "a+")
 
         savetimelapse = input("\n [Drag the folder into this window]: ")
+        if " " in savetimelapse:
+            print("\n Avoid using spaces in the choosen path")
+            savetimelapse = input("\n [Drag the folder into this window]: ")
         f.write(savetimelapse)
         print(" Changes saved !")
         print(" Quitting in 3 seconds...")
@@ -319,7 +427,7 @@ if menuuu == "1":
     f.close()
 
     print(" image download starting")
-    cmd_command = "historyDownload.py 0 ", a, b, startdate, enddate  ### REPLACE WITH  EXE WHEN CONVERTED
+    cmd_command = "historyDownload.exe 0 ", a, b, startdate, enddate  ### REPLACE WITH  EXE WHEN CONVERTED
     cmd_string = " ".join(cmd_command)
     os.system(cmd_string)
     time.sleep(2)

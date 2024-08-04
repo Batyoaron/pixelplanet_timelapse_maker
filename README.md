@@ -17,7 +17,7 @@ to make a timelapse
 If you don't want to always copy and paste the cordinates when making timelapse from the same place,
 then you can pre set the cordinates and save one. Load it later and you just need to write the dates
 
-[3]: Settings     <-- Opens setup menu, you can only set the video output path for now
+[3]: Settings     <-- Opens setup menu, you can edit where to save the timelapse or download new versions via the app
 ```
 <br>
 <h3> Timelapse maker menu: </h3>

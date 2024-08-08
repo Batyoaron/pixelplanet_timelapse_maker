@@ -70,4 +70,4 @@ you just need to give him start date and end date.
 <br>
 <b> 5. Write how fast the final timelapse have to be (fps, images/second) </b>
 <br>
-<b> 6. It will do the rest by itself, but it needs time to finish everything. The final timelapse will be on the desktop</b>
+<b> 6. It will do the rest by itself, but it needs time to finish everything. The final timelapse will be in the folder you give the program at the first time using the software</b>

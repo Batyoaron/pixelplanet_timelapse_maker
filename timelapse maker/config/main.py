@@ -4,6 +4,13 @@ import shutil
 import re
 import time
 
+#creates a backup if its getting an error
+shutil.rmtree("backup")
+backup = "images/"
+images = "backup/"
+shutil.copytree(backup, images, dirs_exist_ok=True)
+
+
 def read_file_content(file_path, default_value):
     try:
         with open(file_path, 'r') as file:
@@ -41,7 +48,7 @@ def create_video_from_images(image_folder, output_path, fps):
 
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     video_writer = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
-
+    import time
     start_time = time.time()
     total_images = len(image_files)
     os.system("cls" if os.name == "nt" else "clear")

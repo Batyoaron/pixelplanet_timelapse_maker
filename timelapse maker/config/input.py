@@ -4,7 +4,6 @@ import time
 import zipfile
 import shutil
 import requests
-
 def check_github_release(owner, repo, tag):
     url = f"https://api.github.com/repos/{owner}/{repo}/releases/tags/{tag}"
     response = requests.get(url)
@@ -17,7 +16,15 @@ def check_github_release(owner, repo, tag):
         response.raise_for_status()
 owner = "Batyoaron"
 repo = "pixelplanet_timelapse_maker"
-tag = "ptm1.4.5" # this is 1.4.4 and checking if 1.4.5 is available
+tag = "ptm1.4.6" # this is 1.4.5 and checking if 1.4.6 is available
+
+
+try:
+    with open("outputpath.txt", 'r') as file:
+        check_if_output_folder_is_existing = file.read()
+except FileNotFoundError:
+    pass
+
 
 os.system("cls")
 
@@ -25,7 +32,7 @@ maintext = '''
  PixelPlanet.fun timelapse maker
  By: PixelHungary
  Please DM: 'averagebatyoenjoyer' in discord if you find an issue, or if you need help in anything
- Current version: 1.4.4
+ Current version: 1.4.5
 '''
 
 if os.path.isfile("outputpath.txt"):
@@ -41,7 +48,6 @@ else:
     os.system("cls")
 
 print(maintext)
-#check if new version is available (this is version 1.4.4 so we have to check if 1.4.5 is exists)
 if check_github_release(owner, repo, tag):
     print(f" New version is available. You can download it in the settings")
 else:
@@ -61,6 +67,7 @@ settingsmenu = '''
  
  [1]: Set where to save the timelapse
  [2]: Download new version
+ [3]: Troubleshooting
  [q]: Quit
 
 '''
@@ -74,6 +81,7 @@ presetmenu = '''
  [q]: Quit
 
 '''
+
 
 #menu
 menu = '''
@@ -97,6 +105,134 @@ if menuuu == "3":
     if stsmenu == "q":
         os.startfile("input.exe")
         exit()
+    
+
+## troubleshooting
+    if stsmenu == "3":
+        os.system("cls")
+        print("\n Choose your problem: ")
+        print(" [1]: Program closing itself when/after...")
+        print(" [2]: Final Video error")
+        print(" [3]: Image downloader error")
+        print(" [4]: Load backup images")
+        print(" [q]: Exit \n")
+        error_detector = input(" []: ")
+
+        if error_detector == "q":
+            os.startfile("input.exe")
+            exit()
+        
+        if error_detector == "4":
+            backup = "backup/"
+            images = "images/"
+            shutil.copytree(backup, images, dirs_exist_ok=True)
+            print("\n Backup loaded successfully into images folder")
+            print(" [!]: You have to run the video creator now, because the backup will be gone after your next timelapse")
+            input(" enter to run video creator")
+            os.startfile("main.exe")
+            exit()
+
+
+        if error_detector == "3":
+            print("\n [1]: 'Got faulty backup frame'")
+            print(" [q]: Exit")
+            error_detector_third = input("  []: ")
+
+            if error_detector_third == "1":
+                print("\n Wifi error or pixelplanet have corrupt or no history mode data that day.")
+                input(" enter to quit")
+                os.startfile("input.exe")
+                exit()
+
+            if error_detector_third == "q":
+                os.startfile("input.exe")
+                exit()
+
+
+        if error_detector == "2":
+            print("\n [1]: I cant send the video on discord")
+            print(" [q]: Exit")
+            error_detector_second = input(" []: ")
+
+            if error_detector_second == "1":
+                video_analyzer_for_errors = input(" [Please drag the final video into this window]: ")
+                 
+                if "_.mp4" in video_analyzer_for_errors:
+                    print("\n No errors found, but if the error still resists, contact me on discord: averagebatyoenjoyer | enter to quit")
+                    input()
+                    os.startfile("input.exe")
+                    exit()
+                else:
+                    print("\n An error happened while converting the video, please run number one inside the troubleshooting otpion")
+                    input(" enter to quit")
+                    os.startfile("input.exe")
+                    exit()
+
+            if error_detector_second == "q":
+                os.startfile("input.exe")
+                exit()
+
+
+        if error_detector == "1":
+            print("\n [1]: Program closing itself after Video creator part (processing images)")
+            print(" [q]: Exit")
+            error_detector_first = input(" []: ")
+            print("\n")
+            
+            if error_detector_first == "1":
+                print("\n Your images gone from the main folder, so you have to load the backups in troublshooting settings \n")
+                if os.path.isdir(check_if_output_folder_is_existing): # checking if a valid output path is existing, because if not, it has no place to save the videos
+                    print(" Output folder is exisitng: Yes")
+                    
+                    if os.path.isfile("converterpart/convertercommand"): # checking if convertercommand existing in converterpart directory, if yes this could cause an error because the main.exe tries to copy it but its existing
+                        print(" Convertercommand file exists: Yes")
+                        print(" This could cause an error, because it shouldn't exist if you have this program running")
+                        print("\n [1 error found] \n")
+                        os.remove("converterpart/convertercommand")
+                        os.remove("converterpart/convertercommandsecond")
+                        
+                        if os.path.isfile("convertercommand"):
+                            os.remove("convertercommand")
+                            os.remove("convertercommandsecond")
+
+                        print(" Error resovled, enter to quit")
+                        input()
+                        os.startfile("input.exe")
+                        exit()
+
+                    else:
+                        print(" Convertercommand file exists: No \n")
+                        print(" No errors found, if you still got a problem, try to reinstall the program from github releases")
+                        print(" If that didnt worked either, contact me on discord: averagebatyoenjoyer | enter to quit")
+                        input()
+                        os.startfile("input.exe")
+                        exit()
+
+                else:
+                    print(" Output folder is exisitng: No")
+                    print(" Output folder is not found, \n please go to settings --> Set where to save the timelapse, create a new folder and change it")
+                    print("\n")
+                    # output path error but we have to check for the other problem too
+
+                    if os.path.isfile("converterpart/convertercommand"): # checking if convertercommand existing in converterpart directory, if yes this could cause an error because the main.exe tries to copy it but its existing
+                        print(" Convertercommand file exists: Yes")
+                        print(" This could cause an error, because it shouldn't exist if you have this program running")
+                        print("\n [2 errors found] \n")
+                        os.remove("converterpart/convertercommand")
+                        os.remove("converterpart/convertercommandsecond")
+                        print(" Error resovled, enter to quit")
+                        input()
+                        os.startfile("input.exe")
+                        exit()
+                        
+                    else:
+                        input("enter to quit")
+                        os.startfile("input.exe")
+                        exit()
+
+
+        
+
     
     # download new version part
     if stsmenu == "2":
@@ -130,7 +266,7 @@ if menuuu == "3":
                     print(f" Decompressed to {extract_path}")
                     os.remove(download_path)
                     print(f" Removed the zip file {download_path}")
-                url = "https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/download/ptm1.4.5/pixelplanet.timelapse.maker.zip" #### REWRITE WHEN NEW VERSION COMES OUT
+                url = "https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/download/ptm1.4.6/pixelplanet.timelapse.maker.zip" #### REWRITE WHEN NEW VERSION COMES OUT
                 download_path = os.path.join(get_path_for_new_version, "pixelplanet.timelapse.maker.zip")
                 extract_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker")
                 download_and_decompress(url, download_path, extract_path)
@@ -313,7 +449,7 @@ if menuuu == "2":
         f.close()
 
         #date write
-        date = (" [D] Start date: " + startdateload + "    |  End date: " + speedload)
+        date = (" [D] Start date: " + startdateload + "    |  End date: " + enddateload)
         f = open("date", "+a")
         f.write(str(date))
         f.close()

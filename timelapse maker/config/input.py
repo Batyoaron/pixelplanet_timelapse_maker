@@ -32,7 +32,7 @@ maintext = '''
  PixelPlanet.fun timelapse maker
  By: PixelHungary
  Please DM: 'averagebatyoenjoyer' in discord if you find an issue, or if you need help in anything
- Current version: 1.4.5
+ Current version: 1.4.5 
 '''
 
 if os.path.isfile("outputpath.txt"):
@@ -279,17 +279,18 @@ if menuuu == "3":
                 move_presets = input(" []: ")
 
                 if move_presets == "1":
-                    to_new_version  = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet timelapse maker", "config")
+                    to_new_version  = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet_timelapse_maker", "Config")
                     if os.path.isfile("outputpath.txt"):
                         shutil.move("outputpath.txt", to_new_version)
-                    remove_new_preset = os.path.join(to_new_version, "presets")
-                    os.rmdir(remove_new_preset)
-                    shutil.move("presets", to_new_version)
+
+                    presets_to_new_version = os.path.join(to_new_version, "presets")
+                    shutil.copytree("presets", presets_to_new_version, dirs_exist_ok=True)
                     print(" Everything setup ! You can remove this version manually")
                     print(" Launching new version in 5 seconds!")
                     time.sleep(5)
-                    launcher_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet timelapse maker", "config", "input.exe")
-                    os.startfile(launcher_path)
+                    launcher_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet_timelapse_maker")
+                    os.chdir(launcher_path)
+                    os.system("launcher.exe")
                     exit()
 
 
@@ -297,7 +298,7 @@ if menuuu == "3":
                     print(" Everything setup !")
                     print(" Launching new version in 5 seconds!")
                     time.sleep(5)
-                    launcher_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet timelapse maker", "config", "input.exe")
+                    launcher_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet_timelapse_maker", "launcher.exe")
                     os.startfile(launcher_path)
                     exit()
 

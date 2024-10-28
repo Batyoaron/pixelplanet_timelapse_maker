@@ -4,6 +4,17 @@ import time
 import zipfile
 import shutil
 import requests
+import re
+
+
+def good_coordinates(a):
+    pattern = r'^-?\d+_-?\d+$'
+    
+    if re.match(pattern, a):
+        return True
+    else:
+        return False
+
 def check_github_release(owner, repo, tag):
     url = f"https://api.github.com/repos/{owner}/{repo}/releases/tags/{tag}"
     response = requests.get(url)
@@ -16,7 +27,7 @@ def check_github_release(owner, repo, tag):
         response.raise_for_status()
 owner = "Batyoaron"
 repo = "pixelplanet_timelapse_maker"
-tag = "ptm1.4.6" # this is 1.4.5 and checking if 1.4.6 is available
+tag = "ptm1.4.7" # this is 1.4.6 and checking if 1.4.7 is available 
 
 
 try:
@@ -32,7 +43,7 @@ maintext = '''
  PixelPlanet.fun timelapse maker
  By: PixelHungary
  Please DM: 'averagebatyoenjoyer' in discord if you find an issue, or if you need help in anything
- Current version: 1.4.5 
+ Current version: 1.4.6
 '''
 
 if os.path.isfile("outputpath.txt"):
@@ -61,6 +72,8 @@ if os.path.isfile("days"):
     os.remove("days")
 if os.path.isfile("name"):
     os.remove("name")
+if os.path.isfile("rate"):
+    os.remove("rate")
 
 settingsmenu = '''
  [S] Settings Menu
@@ -90,12 +103,104 @@ menu = '''
  [1]: Make timelapse now
  [2]: Presets
  [3]: Settings
+ [4]: Make live timelapse ( New )
 
 '''
 
 #main menu
 print(menu)
 menuuu = input(" [Choose an option]: ")
+
+if menuuu == "4":
+    os.system("cls")
+    print("\n [L] Live Timelapse maker\n") 
+    nametimelapse = input(" Name of the video: ")
+    if " " in nametimelapse:
+        print("\n Avoid using spaces in the name, try again")
+        nametimelapse = input(" Name of the video: ")
+
+    a = input(" Start x,y coordinates (Example: 2870_-10459): ") #example 2870_-10459
+
+    if good_coordinates(a):
+        pass
+    else:
+        print("\n Hmmm.. i dont think you entered this right, try again, read the tutorial in github!")
+        
+        ### second try
+        a = input(" Start x,y coordinates: ")
+        if good_coordinates(a):
+            pass
+        else:
+            print("\n Please read the tutorial on github and then try again")
+            
+            ### third try
+            a = input(" Start x,y coordinates: ")
+            if good_coordinates(a):
+                pass
+            else:
+                print("\n Bad cordinates again, quitting in 3 seconds...")
+                time.sleep(3)
+                exit()
+
+
+
+    b = input(" End x,y coordinates: ") #example 2870_-10459
+
+    if good_coordinates(b):
+        pass
+    else:
+        print("\n Hmmm.. i dont think you entered this right, try again, read the tutorial in github!")
+        
+        ### second try
+        b = input(" End x,y coordinates: ")
+        if good_coordinates(b):
+            pass
+        else:
+            print("\n Please read the tutorial on github and then try again")
+            
+            ### third try
+            b = input(" End x,y coordinates: ")
+            if good_coordinates(b):
+                pass
+            else:
+                print("\n Bad cordinates again, quitting in 3 seconds...")
+                time.sleep(3)
+                exit()
+
+
+    speed = input(" Timelapse speed(fps): ")
+
+    rate = input(" Download rate(Images/second): ")
+
+
+    def count_days(start_date, end_date):
+        start_datetime = datetime.strptime(start_date, "%Y-%m-%d")
+        end_datetime = datetime.strptime(end_date, "%Y-%m-%d")
+        delta = end_datetime - start_datetime
+        num_days = delta.days + 1 
+        return num_days
+
+    #name write
+    f = open("name", "a")
+    f.write(str(nametimelapse))
+    f.close()
+
+    #rate write
+    f = open("rate", "a")
+    f.write(str(rate))
+    f.close()
+
+    #speed write
+    f = open("speed", "+a")
+    f.write(speed)
+    f.close()
+
+    print(" image download starting")
+    cmd_command = "live_timelapse_maker.exe 0 ", a, b,   ### REPLACE WITH  EXE WHEN CONVERTED
+    cmd_string = " ".join(cmd_command) ## canvasID startX_startY endX_endY filename.png
+    os.system(cmd_string)
+    time.sleep(2)
+    exit()
 
 if menuuu == "3":
     os.system("cls")
@@ -236,86 +341,9 @@ if menuuu == "3":
     
     # download new version part
     if stsmenu == "2":
-        os.system("cls")
-        if check_github_release(owner, repo, tag):
-            print(" New version is available, do you want to download it?")
-            print(" [1]: Yes")
-            print(" [2]: No")
-            new_version = input(f" []: ")
-            if new_version == "1":
-                os.system("cls")
-                get_path_for_new_version = input(" [Drag the folder into this window where you want to save the new version]: ")
-                if " " in get_path_for_new_version:
-                    print(" Avoid using spaces in folder name")
-                    get_path_for_new_version = input(" [Drag the folder into this window where you want to save the new version]: ")
+        os.startfile("C:/pixelplanet_timelapse_maker/application/pixelplanet_timelapse_maker/new_version_downloader.exe")
+        
 
-                def download_and_decompress(url, download_path, extract_path):
-                    if not isinstance(download_path, str):
-                        raise TypeError(f"Expected 'download_path' to be a str, got {str(download_path)}")
-                    if not isinstance(extract_path, str):
-                        raise TypeError(f"Expected 'extract_path' to be a str, got {str(extract_path)}")
-
-                    print(" Starting download...")
-                    response = requests.get(url)
-                    with open(download_path, 'wb') as file:
-                        file.write(response.content)
-                    print(f" Downloaded to {download_path}")
-                    print(" Starting decompression...")
-                    with zipfile.ZipFile(download_path, 'r') as zip_ref:
-                        zip_ref.extractall(extract_path)
-                    print(f" Decompressed to {extract_path}")
-                    os.remove(download_path)
-                    print(f" Removed the zip file {download_path}")
-                url = "https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/download/ptm1.4.6/pixelplanet.timelapse.maker.zip" #### REWRITE WHEN NEW VERSION COMES OUT
-                download_path = os.path.join(get_path_for_new_version, "pixelplanet.timelapse.maker.zip")
-                extract_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker")
-                download_and_decompress(url, download_path, extract_path)
-
-                os.system("cls")
-                print(" Download finished!")
-                print(" Do you want to move your data from the older version to the new one?")
-                print(" [1]: Yes")
-                print(" [2]: No")
-                move_presets = input(" []: ")
-
-                if move_presets == "1":
-                    to_new_version  = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet_timelapse_maker", "Config")
-                    if os.path.isfile("outputpath.txt"):
-                        shutil.move("outputpath.txt", to_new_version)
-
-                    presets_to_new_version = os.path.join(to_new_version, "presets")
-                    shutil.copytree("presets", presets_to_new_version, dirs_exist_ok=True)
-                    print(" Everything setup ! You can remove this version manually")
-                    print(" Launching new version in 5 seconds!")
-                    time.sleep(5)
-                    launcher_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet_timelapse_maker")
-                    os.chdir(launcher_path)
-                    os.system("launcher.exe")
-                    exit()
-
-
-                if move_presets == "2":
-                    print(" Everything setup !")
-                    print(" Launching new version in 5 seconds!")
-                    time.sleep(5)
-                    launcher_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet_timelapse_maker", "launcher.exe")
-                    os.startfile(launcher_path)
-                    exit()
-
-
-
-            else:
-                print(" Quitting in 3 seconds...")
-                time.sleep(3)
-                os.startfile("input.exe")
-                exit()
-
-        else:
-            print(" I cannot find the new version, maybe its not out yet")
-            print(" Quitting in 3 seconds...")
-            time.sleep(3)
-            os.startfile("input.exe")
-            exit()
 
     if stsmenu == "1":
         if os.path.isfile("outputpath.txt"):
@@ -494,6 +522,15 @@ if menuuu == "2":
 
 
 #### main timelapse maker
+
+def good_coordinates(a):
+    pattern = r'^-?\d+_-?\d+$'
+    
+    if re.match(pattern, a):
+        return True
+    else:
+        return False
+
 if menuuu == "1":
     os.system("cls")
     print("\n [T] Timelapse maker\n")
@@ -502,21 +539,55 @@ if menuuu == "1":
         print("\n Avoid using spaces in the name, try again")
         nametimelapse = input(" Name of the video: ")
 
-    a = input(" Start x,y coordinates: ") #example 2870_-10459
-    if "_" in a:
+    a = input(" Start x,y coordinates (Example: 2870_-10459): ") #example 2870_-10459
+
+    if good_coordinates(a):
         pass
     else:
         print("\n Hmmm.. i dont think you entered this right, try again, read the tutorial in github!")
+        
+        ### second try
         a = input(" Start x,y coordinates: ")
+        if good_coordinates(a):
+            pass
+        else:
+            print("\n Please read the tutorial on github and then try again")
+            
+            ### third try
+            a = input(" Start x,y coordinates: ")
+            if good_coordinates(a):
+                pass
+            else:
+                print("\n Bad cordinates again, quitting in 3 seconds...")
+                time.sleep(3)
+                exit()
 
-    b = input(" End x,y coordinates: ")
-    if "_" in b:
+
+
+    b = input(" End x,y coordinates: ") #example 2870_-10459
+
+    if good_coordinates(b):
         pass
     else:
         print("\n Hmmm.. i dont think you entered this right, try again, read the tutorial in github!")
+        
+        ### second try
         b = input(" End x,y coordinates: ")
+        if good_coordinates(b):
+            pass
+        else:
+            print("\n Please read the tutorial on github and then try again")
+            
+            ### third try
+            b = input(" End x,y coordinates: ")
+            if good_coordinates(b):
+                pass
+            else:
+                print("\n Bad cordinates again, quitting in 3 seconds...")
+                time.sleep(3)
+                exit()
 
-    startdate = input(" Start time: ")
+    startdate = input(" Start time (Example: 2023-01-01): ")
     if "-" in startdate:
         pass
     else:

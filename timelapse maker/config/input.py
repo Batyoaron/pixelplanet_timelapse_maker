@@ -337,11 +337,87 @@ if menuuu == "3":
 
 
         
-
-    
     # download new version part
     if stsmenu == "2":
-        os.startfile("C:/pixelplanet_timelapse_maker/application/pixelplanet_timelapse_maker/new_version_downloader.exe")
+        os.system("cls")
+        if check_github_release(owner, repo, tag):
+            print(" New version is available, do you want to download it?")
+            print(" [1]: Yes")
+            print(" [2]: No")
+            new_version = input(f" []: ")
+            if new_version == "1":
+                os.system("cls")
+                get_path_for_new_version = input(" [Drag the folder into this window where you want to save the new version]: ")
+                if " " in get_path_for_new_version:
+                    print(" Avoid using spaces in folder name")
+                    get_path_for_new_version = input(" [Drag the folder into this window where you want to save the new version]: ")
+
+                def download_and_decompress(url, download_path, extract_path):
+                    if not isinstance(download_path, str):
+                        raise TypeError(f"Expected 'download_path' to be a str, got {str(download_path)}")
+                    if not isinstance(extract_path, str):
+                        raise TypeError(f"Expected 'extract_path' to be a str, got {str(extract_path)}")
+
+                    print(" Starting download...")
+                    response = requests.get(url)
+                    with open(download_path, 'wb') as file:
+                        file.write(response.content)
+                    print(f" Downloaded to {download_path}")
+                    print(" Starting decompression...")
+                    with zipfile.ZipFile(download_path, 'r') as zip_ref:
+                        zip_ref.extractall(extract_path)
+                    print(f" Decompressed to {extract_path}")
+                    os.remove(download_path)
+                    print(f" Removed the zip file {download_path}")
+                url = "https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/download/ptm1.4.6/pixelplanet.timelapse.maker.zip" #### REWRITE WHEN NEW VERSION COMES OUT
+                download_path = os.path.join(get_path_for_new_version, "pixelplanet.timelapse.maker.zip")
+                extract_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker")
+                download_and_decompress(url, download_path, extract_path)
+
+                os.system("cls")
+                print(" Download finished!")
+                print(" Do you want to move your data from the older version to the new one?")
+                print(" [1]: Yes")
+                print(" [2]: No")
+                move_presets = input(" []: ")
+
+                if move_presets == "1":
+                    to_new_version  = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet timelapse maker", "config")
+                    if os.path.isfile("outputpath.txt"):
+                        shutil.move("outputpath.txt", to_new_version)
+                    remove_new_preset = os.path.join(to_new_version, "presets")
+                    os.rmdir(remove_new_preset)
+                    shutil.move("presets", to_new_version)
+                    print(" Everything setup ! You can remove this version manually")
+                    print(" Launching new version in 5 seconds!")
+                    time.sleep(5)
+                    launcher_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet timelapse maker", "config", "input.exe")
+                    os.startfile(launcher_path)
+                    exit()
+
+
+                if move_presets == "2":
+                    print(" Everything setup !")
+                    print(" Launching new version in 5 seconds!")
+                    time.sleep(5)
+                    launcher_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker", "pixelplanet timelapse maker", "config", "input.exe")
+                    os.startfile(launcher_path)
+                    exit()
+
+
+
+            else:
+                print(" Quitting in 3 seconds...")
+                time.sleep(3)
+                os.startfile("input.exe")
+                exit()
+
+        else:
+            print(" I cannot find the new version, maybe its not out yet")
+            print(" Quitting in 3 seconds...")
+            time.sleep(3)
+            os.startfile("input.exe")
+            exit()
         
 
 

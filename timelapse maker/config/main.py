@@ -5,11 +5,15 @@ import re
 import time
 
 #creates a backup if its getting an error
+
+print(" Warning! Backup creating! \n If you downloaded many images, i doesnt recommend doing anything that required to use the disk!")
+
 shutil.rmtree("backup")
 backup = "images/"
 images = "backup/"
 shutil.copytree(backup, images, dirs_exist_ok=True)
 
+os.system("cls")
 
 def read_file_content(file_path, default_value):
     try:

@@ -10,6 +10,10 @@ import json
 import PIL.Image
 import time
 
+def generate_progress_bar(percentage, bar_length=20):
+    filled_length = int(bar_length * percentage // 100)
+    bar = "■" * filled_length + " " * (bar_length - filled_length)
+    return f"[{bar}] {percentage:.2f}%"
 
 semaphore = asyncio.Semaphore(500)
 
@@ -122,7 +126,7 @@ async def calculate_total_images(canvas, start_date, end_date):
         temp_date += delta
 
     if total_images == 0:
-        total_images = 1  # to avoid division by zero
+        total_images = 1  
 
     return total_images
 
@@ -213,7 +217,6 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
                 import time
                 elapsed_time = time.time() - start_time
                 
-                # Estimate remaining time
                 if cnt > 0:
                     average_time_per_image = elapsed_time / cnt
                     estimated_remaining_time = average_time_per_image * (total_images - cnt)
@@ -225,15 +228,22 @@ async def get_area(canvas, x, y, w, h, start_date, end_date):
                 minutes = int((estimated_remaining_time % 3600) // 60)
                 seconds = int(estimated_remaining_time % 60)
                 
+
+
+
                 os.system("cls")
                 print(" [N] Project name: " , nametimelapse)
                 print(" [I] Images downloading  |    Image: ", cnt, "/", total_images ," |   Day: ", day, "/", daysss, "   | Days left: ", days_left)
-                print(" [P] Progress: %.2f%%" % percentage)
-                if day >= 2:
+                print(" [P] Progress: ", generate_progress_bar(percentage))
+                if percentage >= 10:
                     print(" [T] Estimated time remaining: %02d:%02d:%02d" % (hours, minutes, seconds))
                 else:
                     print(" [T] Calculating estimated remaining time...")
                 print(dateee)
+
+
+
+
 
                 image_rel.save('./images/t%s.png' % (cnt))
                 if time == time_list[-1]:
@@ -263,6 +273,5 @@ if __name__ == "__main__":
         if not os.path.exists('./images'):
             os.mkdir('./images')
         loop.run_until_complete(get_area(canvas, x, y, w, h, start_date, end_date))
-        print("Done!")
 
 os.startfile("main.exe")

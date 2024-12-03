@@ -199,6 +199,7 @@ def listen_for_escape(stop_flag):
         if msvcrt.kbhit() and ord(msvcrt.getch()) == 27:  # ESC key is pressed
             stop_flag.set()
             os.startfile("main.exe")
+            print(" [I]: Program will stop soon, starting to make a video...")
             sys.exit()
             exit()
             break

@@ -46,7 +46,10 @@ maintext = '''
  Current version: 1.4.6
 '''
 
-if os.path.isfile("outputpath.txt"):
+getcurrent_path = os.getcwd()
+llmk = os.path.join(getcurrent_path, "outputpath.txt")
+
+if os.path.isfile(llmk):
     pass
 else:
     deafult_path = input(" Please give me a default path where to save the videos(easier if you create a folder and drag the folder into this window): ")
@@ -171,6 +174,19 @@ if menuuu == "4":
     speed = input(" Timelapse speed(fps): ")
 
     rate = input(" Download rate(Images/second): ")
+    rate = int(rate)
+    if rate > 3:
+        pass
+    else:
+        print(" \n Please dont set the image rate under 4 seconds")
+        rate = input(" Download rate(Images/second): ")
+        if rate > 3:
+            pass
+        else:
+            print(" Dont set the rate under 4 seconds, quiting...")
+            time.sleep(3)
+            os.startfile("input.exe")
+            exit()
 
 
     def count_days(start_date, end_date):
@@ -369,7 +385,7 @@ if menuuu == "3":
                     print(f" Decompressed to {extract_path}")
                     os.remove(download_path)
                     print(f" Removed the zip file {download_path}")
-                url = "https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/download/ptm1.4.6/pixelplanet.timelapse.maker.zip" #### REWRITE WHEN NEW VERSION COMES OUT
+                url = "https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/download/ptm1.4.5/pixelplanet_timelapse_maker.zip" #### REWRITE WHEN NEW VERSION COMES OUT
                 download_path = os.path.join(get_path_for_new_version, "pixelplanet.timelapse.maker.zip")
                 extract_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker")
                 download_and_decompress(url, download_path, extract_path)
@@ -609,6 +625,25 @@ def good_coordinates(a):
 
 if menuuu == "1":
     os.system("cls")
+    #checking for errors before making any timelapse to avoid critical program issue
+    if os.path.isdir(check_if_output_folder_is_existing):
+        pass
+    else:
+        print("\n ERROR: Output folder doesnt found, please edit where to save the video in settings")
+        input(" Press enter to quit to menu")
+        os.startfile("input.exe")
+        exit()
+    
+    if os.path.isfile("convertercommand"):
+        os.remove("convertercommand")
+    if os.path.isfile("convertercommandsecond"):
+        os.remove("convertercommandsecond")
+    if os.path.isfile("converterpart/convertercommand"):
+        os.remove("converterpart/convertercommand")
+    if os.path.isfile("converterpart/convertercommandsecond"):
+        os.remove("converterpart/convertercommandsecond")
+
+
     print("\n [T] Timelapse maker\n")
     nametimelapse = input(" Name of the video: ")
     if " " in nametimelapse:

@@ -385,7 +385,7 @@ if menuuu == "3":
                     print(f" Decompressed to {extract_path}")
                     os.remove(download_path)
                     print(f" Removed the zip file {download_path}")
-                url = "https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/download/ptm1.4.5/pixelplanet_timelapse_maker.zip" #### REWRITE WHEN NEW VERSION COMES OUT
+                url = "https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/download/ptm1.4.7/pixelplanet_timelapse_maker.zip" #### REWRITE WHEN NEW VERSION COMES OUT
                 download_path = os.path.join(get_path_for_new_version, "pixelplanet.timelapse.maker.zip")
                 extract_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker")
                 download_and_decompress(url, download_path, extract_path)

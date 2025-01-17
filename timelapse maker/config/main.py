@@ -4,6 +4,9 @@ import shutil
 import re
 import time
 
+f = open("detectcrash_video_creator.txt", "a")
+f.close()
+
 #creates a backup if its getting an error
 
 print(" Warning! Backup creating! \n If you downloaded many images, i doesnt recommend doing anything that required to use the disk!")
@@ -118,3 +121,5 @@ os.mkdir("images")
 
 os.chdir("converterpart")
 os.startfile("converter.exe")
+
+os.remove("detectcrash_video_creator.txt")

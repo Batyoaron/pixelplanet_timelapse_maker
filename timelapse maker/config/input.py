@@ -30,12 +30,31 @@ repo = "pixelplanet_timelapse_maker"
 tag = "ptm1.4.7" # this is 1.4.6 and checking if 1.4.7 is available 
 
 
-try:
-    with open("outputpath.txt", 'r') as file:
-        check_if_output_folder_is_existing = file.read()
-except FileNotFoundError:
-    pass
 
+if os.path.isfile("detectcrash_image_downloader.txt"):
+    os.remove("detectcrash_image_downloader.txt")
+    print("\n Crash detected! \n\n [I]: Program cannot downloaded every image successfully")
+    print(" Unfortunately, you cant finish the image downloading, but you can start creating a video with \n the images that you downloaded so far\n")
+    print(" Do you want to continue?")
+    crashdetect_input = input(" [Y / N]: ")
+
+    if crashdetect_input == "y":
+        os.startfile("main.exe") 
+        exit()
+    else:
+        pass
+        
+if os.path.isfile("detectcrash_video_creator.txt"):
+    os.remove("detectcrash_video_creator.txt")
+    print("\n Crash detected! \n\n [I]: Video creator part havent finished its job")
+    print(" Do you want to run the video creator part to finish your video?\n")
+    crashdetect_input = input(" [Y / N]: ")
+
+    if crashdetect_input == "y":
+        os.startfile("main.exe") 
+        exit()
+    else:
+        pass
 
 os.system("cls")
 
@@ -43,7 +62,7 @@ maintext = '''
  PixelPlanet.fun timelapse maker
  By: PixelHungary
  Please DM: 'averagebatyoenjoyer' in discord if you find an issue, or if you need help in anything
- Current version: 1.4.6
+ Current version: 1.4.7
 '''
 
 getcurrent_path = os.getcwd()
@@ -106,15 +125,43 @@ menu = '''
  [1]: Make timelapse now
  [2]: Presets
  [3]: Settings
- [4]: Make live timelapse ( New )
+ [4]: Make live timelapse 
 
 '''
 
 #main menu
+
+try:
+    with open("outputpath.txt", 'r') as file:
+        check_if_output_folder_is_existing = file.read()
+except FileNotFoundError:
+    pass
+
 print(menu)
 menuuu = input(" [Choose an option]: ")
 
 if menuuu == "4":
+
+
+
+    if os.path.isdir(check_if_output_folder_is_existing):
+        pass
+    else:
+        print("\n ERROR: Output folder doesnt found, please edit where to save the video in settings")
+        input(" Press enter to quit to menu")
+        os.startfile("input.exe")
+        exit()
+    
+    if os.path.isfile("convertercommand"):
+        os.remove("convertercommand")
+    if os.path.isfile("convertercommandsecond"):
+        os.remove("convertercommandsecond")
+    if os.path.isfile("converterpart/convertercommand"):
+        os.remove("converterpart/convertercommand")
+    if os.path.isfile("converterpart/convertercommandsecond"):
+        os.remove("converterpart/convertercommandsecond")
+
+
     os.system("cls")
     print("\n [L] Live Timelapse maker\n") 
     nametimelapse = input(" Name of the video: ")
@@ -232,10 +279,9 @@ if menuuu == "3":
     if stsmenu == "3":
         os.system("cls")
         print("\n Choose your problem: ")
-        print(" [1]: Program closing itself when/after...")
-        print(" [2]: Final Video error")
-        print(" [3]: Image downloader error")
-        print(" [4]: Load backup images")
+        print(" [1]: Program closing itself ")
+        print(" [2]: Cant send the video on Discord")
+        print(" [3]: Load backup images")
         print(" [q]: Exit \n")
         error_detector = input(" []: ")
 
@@ -243,7 +289,7 @@ if menuuu == "3":
             os.startfile("input.exe")
             exit()
         
-        if error_detector == "4":
+        if error_detector == "3":
             backup = "backup/"
             images = "images/"
             shutil.copytree(backup, images, dirs_exist_ok=True)
@@ -253,103 +299,83 @@ if menuuu == "3":
             os.startfile("main.exe")
             exit()
 
-
-        if error_detector == "3":
-            print("\n [1]: 'Got faulty backup frame'")
-            print(" [q]: Exit")
-            error_detector_third = input("  []: ")
-
-            if error_detector_third == "1":
-                print("\n Wifi error or pixelplanet have corrupt or no history mode data that day.")
+        if error_detector == "2":
+            video_analyzer_for_errors = input(" [Please drag the final video into this window]: ")
+                 
+            if "_.mp4" in video_analyzer_for_errors:
+                print("\n No errors found, but if the error still resists, contact me on discord: averagebatyoenjoyer | enter to quit")
+                input()
+                os.startfile("input.exe")
+                exit()
+            else:
+                print("\n [I]: An error happened while converting the video codec\n")
+                print(" Solutions: ")
+                print(" [1]: Run '1' in troubleshooting settings")
+                print(" [2]: Run '3' in troubleshooting settings\n")
                 input(" enter to quit")
                 os.startfile("input.exe")
                 exit()
 
-            if error_detector_third == "q":
-                os.startfile("input.exe")
-                exit()
 
 
-        if error_detector == "2":
-            print("\n [1]: I cant send the video on discord")
-            print(" [q]: Exit")
-            error_detector_second = input(" []: ")
+            
 
-            if error_detector_second == "1":
-                video_analyzer_for_errors = input(" [Please drag the final video into this window]: ")
-                 
-                if "_.mp4" in video_analyzer_for_errors:
-                    print("\n No errors found, but if the error still resists, contact me on discord: averagebatyoenjoyer | enter to quit")
-                    input()
-                    os.startfile("input.exe")
-                    exit()
-                else:
-                    print("\n An error happened while converting the video, please run number one inside the troubleshooting otpion")
-                    input(" enter to quit")
-                    os.startfile("input.exe")
-                    exit()
 
-            if error_detector_second == "q":
-                os.startfile("input.exe")
-                exit()
+
+
+
+
 
 
         if error_detector == "1":
-            print("\n [1]: Program closing itself after Video creator part (processing images)")
-            print(" [q]: Exit")
-            error_detector_first = input(" []: ")
-            print("\n")
-            
-            if error_detector_first == "1":
-                print("\n Your images gone from the main folder, so you have to load the backups in troublshooting settings \n")
-                if os.path.isdir(check_if_output_folder_is_existing): # checking if a valid output path is existing, because if not, it has no place to save the videos
-                    print(" Output folder is exisitng: Yes")
+            if os.path.isdir(check_if_output_folder_is_existing): # checking if a valid output path is existing, because if not, it has no place to save the videos
+                print(" Output folder is exisitng: Yes")
                     
-                    if os.path.isfile("converterpart/convertercommand"): # checking if convertercommand existing in converterpart directory, if yes this could cause an error because the main.exe tries to copy it but its existing
-                        print(" Convertercommand file exists: Yes")
-                        print(" This could cause an error, because it shouldn't exist if you have this program running")
-                        print("\n [1 error found] \n")
-                        os.remove("converterpart/convertercommand")
-                        os.remove("converterpart/convertercommandsecond")
+                if os.path.isfile("converterpart/convertercommand"): # checking if convertercommand existing in converterpart directory, if yes this could cause an error because the main.exe tries to copy it but its existing
+                    print(" Convertercommand file exists: Yes")
+                    print(" This could cause an error, because it shouldn't exist if you have this program running")
+                    print("\n [1 error found] \n")
+                    os.remove("converterpart/convertercommand")
+                    os.remove("converterpart/convertercommandsecond")
                         
-                        if os.path.isfile("convertercommand"):
-                            os.remove("convertercommand")
-                            os.remove("convertercommandsecond")
+                    if os.path.isfile("convertercommand"):
+                        os.remove("convertercommand")
+                        os.remove("convertercommandsecond")
 
-                        print(" Error resovled, enter to quit")
-                        input()
-                        os.startfile("input.exe")
-                        exit()
-
-                    else:
-                        print(" Convertercommand file exists: No \n")
-                        print(" No errors found, if you still got a problem, try to reinstall the program from github releases")
-                        print(" If that didnt worked either, contact me on discord: averagebatyoenjoyer | enter to quit")
-                        input()
-                        os.startfile("input.exe")
-                        exit()
+                    print(" Error resovled, enter to quit")
+                    input()
+                    os.startfile("input.exe")
+                    exit()
 
                 else:
-                    print(" Output folder is exisitng: No")
-                    print(" Output folder is not found, \n please go to settings --> Set where to save the timelapse, create a new folder and change it")
-                    print("\n")
-                    # output path error but we have to check for the other problem too
+                    print(" Convertercommand file exists: No \n")
+                    print(" No errors found, if you still got a problem, try to reinstall the program from github releases")
+                    print(" If that didnt worked either, contact me on discord: averagebatyoenjoyer | enter to quit")
+                    input()
+                    os.startfile("input.exe")
+                    exit()
 
-                    if os.path.isfile("converterpart/convertercommand"): # checking if convertercommand existing in converterpart directory, if yes this could cause an error because the main.exe tries to copy it but its existing
-                        print(" Convertercommand file exists: Yes")
-                        print(" This could cause an error, because it shouldn't exist if you have this program running")
-                        print("\n [2 errors found] \n")
-                        os.remove("converterpart/convertercommand")
-                        os.remove("converterpart/convertercommandsecond")
-                        print(" Error resovled, enter to quit")
-                        input()
-                        os.startfile("input.exe")
-                        exit()
+            else:
+                print(" Output folder is exisitng: No")
+                print(" Output folder is not found, \n please go to settings --> Set where to save the timelapse, create a new folder and change it")
+                print("\n")
+                # output path error but we have to check for the other problem too
+
+                if os.path.isfile("converterpart/convertercommand"): # checking if convertercommand existing in converterpart directory, if yes this could cause an error because the main.exe tries to copy it but its existing
+                    print(" Convertercommand file exists: Yes")
+                    print(" This could cause an error, because it shouldn't exist if you have this program running")
+                    print("\n [2 errors found] \n")
+                    os.remove("converterpart/convertercommand")
+                    os.remove("converterpart/convertercommandsecond")
+                    print(" Error resovled, enter to quit")
+                    input()
+                    os.startfile("input.exe")
+                    exit()
                         
-                    else:
-                        input("enter to quit")
-                        os.startfile("input.exe")
-                        exit()
+                else:
+                    input("enter to quit")
+                    os.startfile("input.exe")
+                    exit()
 
 
         
@@ -385,7 +411,7 @@ if menuuu == "3":
                     print(f" Decompressed to {extract_path}")
                     os.remove(download_path)
                     print(f" Removed the zip file {download_path}")
-                url = "https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/download/ptm1.4.7/pixelplanet_timelapse_maker.zip" #### REWRITE WHEN NEW VERSION COMES OUT
+                url = "https://github.com/Batyoaron/pixelplanet_timelapse_maker/releases/download/ptm1.4.8/pixelplanet_timelapse_maker.zip" #### REWRITE WHEN NEW VERSION COMES OUT
                 download_path = os.path.join(get_path_for_new_version, "pixelplanet.timelapse.maker.zip")
                 extract_path = os.path.join(get_path_for_new_version, "pixelplanet_timelapse_maker")
                 download_and_decompress(url, download_path, extract_path)

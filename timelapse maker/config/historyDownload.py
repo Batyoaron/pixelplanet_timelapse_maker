@@ -17,6 +17,10 @@ def generate_progress_bar(percentage, bar_length=20):
 
 semaphore = asyncio.Semaphore(500)
 
+
+f = open("detectcrash_image_downloader.txt", "a")
+f.close()
+
 try:
     with open("name", 'r') as file:
         nametimelapse = file.read()
@@ -274,4 +278,6 @@ if __name__ == "__main__":
             os.mkdir('./images')
         loop.run_until_complete(get_area(canvas, x, y, w, h, start_date, end_date))
 
+
+os.remove("detectcrash_image_downloader.txt")
 os.startfile("main.exe")
